@@ -4,7 +4,6 @@ console.log('Minesweeper');
 var mine = '💣';
 
 var gBoard;
-
 var gLevel = {
   SIZE: 4,
   MINES: 2,
@@ -36,16 +35,9 @@ function buildBoard() {
       };
     }
   }
-  //   board[1][1].currBoard.isMine = true;
-  //   board[3][1].currBoard.isMine = true;
 
-  board[1][1] = board[3][1] = {
-    minesAroundCount: 0,
-    isShown: false,
-    isMine: true,
-    isMarked: false,
-  };
   console.table(board);
+  createBombs(board, gLevel.MINES);
   return board;
 }
 
@@ -88,9 +80,9 @@ function setMinesNegsCount(cellI, cellJ, mat) {
 }
 
 function cellClicked(ev, theString, i, j) {
-    var currCell = gBoard[i][j];
-   var neighbors = setMinesNegsCount(i,j,gBoard);
-   console.log(neighbors);
+  var currCell = gBoard[i][j];
+  var neighbors = setMinesNegsCount(i, j, gBoard);
+  console.log(neighbors);
   theString.innerText = currCell.isMine ? mine : neighbors;
   // currCell[i][j].gBoard.isShown = true;
 
@@ -106,4 +98,28 @@ function expandShown(board, elCell, i, j) {}
 function getClassName(location) {
   var cellClass = 'cell-' + location.i + '-' + location.j;
   return cellClass;
+}
+
+function createBombs(board, amount) {
+  var bomb = {
+    minesAroundCount: 0,
+    isShown: false,
+    isMine: true,
+    isMarked: false,
+  };
+  for (let i = 0; i < amount; i++) {
+    var num1 = getRandNum();
+    var num2 = getRandNum();
+    if (!board[num1][num2].isMine) {
+      board[num1][num2] = bomb;
+    } else {
+      i--;
+    }
+  }
+}
+
+function changeLevel(size, mines) {
+  gLevel.SIZE = size;
+  gLevel.MINES = mines;
+  init();
 }

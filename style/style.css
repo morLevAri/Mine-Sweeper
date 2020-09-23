@@ -1,0 +1,24 @@
+h1 {
+    text-align: center;
+}
+
+table {
+
+    margin: auto;
+    left: 50%;
+}
+
+.cell{
+width: 60px;
+height: 60px;
+text-align: center;
+
+}
+
+.block{
+    display: block;
+}
+.hide{
+    color : black;
+    /* font-size: 0px; */
+}

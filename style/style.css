@@ -1,27 +1,36 @@
 h1 {
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 }
 
 .newGame {
     margin: auto;
     left: 50%;
     font-size: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
+.time{
+
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    
+
+}
 .buttons {
     margin: auto;
     left: 50%;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
+
 
 table {
     margin: auto;
     left: 50%;
 }
 
+
+  
 .cell {
     background-color: rgb(177, 177, 177);
     width: 35px;
@@ -31,7 +40,8 @@ table {
 }
 
 .cell:hover {
-    background-color: rgb(98, 98, 98);
+    background-color: rgb(214, 214, 214);
+    color: rgb(214, 214, 214);
 }
 
 .block {
@@ -39,6 +49,16 @@ table {
 }
 
 .hide {
-    color: black;
-    /* font-size: 0px; */
+ background-color: rgb(170, 170, 170);
+ color: rgb(170, 170, 170);
 }
+
+.show {
+    background-color: rgb(112, 112, 112);
+    color:black;
+   }
+  
+.bombShow{
+    background-color: red;
+    color:black;
+}   

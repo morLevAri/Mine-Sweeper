@@ -1,39 +1,56 @@
 <html lang="en">
 
 <head>
-    <title>Minesweeper</title>
+    <title>Minesweeper 💥</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/fireworks.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body onload="init()">
     <br>
-    <br>
-    <br>
-    <h1>Minesweeper</h1>
-    <div class="buttons">
-       
-        <h3 class="time"> Time: <label id="minutes">00</label>:<label id="seconds">00</label>
-        </h3>
-        
+
+    <div class="container">
+        <h1>Minesweeper</h1>
+
+
+        <h3 class="time"> Time: <label id="minutes">00</label>:<label id="seconds">00</label></h3>
+        <h3 class="flags">flags:<label id="flags"> 0</label> </h3>
+
+        <br>
         <h3 class="lives">💗 💗 💗</h3>
+
+        <h2>
+            <div class="liveMsg">
+                You lost a life, try again
+            </div>
+        </h2>
+
+
         <button class="newGame" onclick="init()">😃</button>
         <br>
 
-        <button onclick="changeLevel(4,2)">Easy</button>
-        <button onclick="changeLevel(8,12)">Medium</button>
-        <button onclick="changeLevel(12,30)">Hard</button>
-    </div>
-    <table class="center" border="1">
-        <tbody class="board">
-        </tbody>
-    </table>
+        <div>
+            <button class="levels" onclick="changeLevel(4,2)" style="cursor: pointer">Easy</button>
+            <button class="levels" onclick="changeLevel(8,12)" style="cursor: pointer">Medium</button>
+            <button class="levels" onclick="changeLevel(12,30)" style="cursor: pointer"> Hard</button>
 
+        </div>
+        <table id="center">
+            <tbody class="board">
+            </tbody>
+        </table>
+
+
+    </div>
 
 
 
     <script src="js/util.js"></script>
     <script src="js/game.js"></script>
     <!-- <script src="js/backup.js"></script> -->
+
 
 </body>
 

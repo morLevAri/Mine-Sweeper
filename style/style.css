@@ -1,42 +1,90 @@
+.container {
+    color: seashell;
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: rgb(53, 54, 54);
+    padding: 70px;
+    padding-top: 40px;
+    border-radius: 30px;
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 10px;
+    /* background-image: linear-gradient(rgb(0, 82, 82), rgb(123, 218, 218)); */
+}
+
 h1 {
     text-align: center;
-    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+    color: rgb(221, 255, 187);
 }
 
 .newGame {
     margin: auto;
     left: 50%;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 40px;
+    background-color: rgb(53, 54, 54);
+    border: none;
 }
 
-.time{
-
-    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-    
-
+.time {
+    display: inline-block;
+    margin-right: 150px;
+    font-family: 'Ubuntu', sans-serif;
+    left: 50%;
+    text-align: center;
 }
-.buttons {
+
+.flags {
+    display: inline-block;
+    margin-left: 150px;
+}
+
+.lives {
     margin: auto;
     left: 50%;
     text-align: center;
     margin-bottom: 10px;
+    font-size: 40px;
+    visibility: visible;
 }
 
+.liveMsg {
+    color: rgb(221, 255, 187);
+    margin: auto;
+    left: 50%;
+    text-align: center;
+    margin-bottom: 2px;
+    visibility: hidden;
+    font-size: 25px;
+}
+
+.levels {
+    height: 25px;
+    margin: auto;
+    left: 50%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 15px;
+}
 
 table {
     margin: auto;
     left: 50%;
 }
 
-
-  
 .cell {
     background-color: rgb(177, 177, 177);
+    font-size: 20px;
     width: 35px;
     height: 35px;
     text-align: center;
     cursor: pointer;
+    box-shadow: 1px 1px 1px #bbbbbb;
 }
 
 .cell:hover {
@@ -44,21 +92,17 @@ table {
     color: rgb(214, 214, 214);
 }
 
-.block {
-    display: block;
-}
-
 .hide {
- background-color: rgb(170, 170, 170);
- color: rgb(170, 170, 170);
+    background-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
 }
 
 .show {
     background-color: rgb(112, 112, 112);
-    color:black;
-   }
-  
-.bombShow{
+    color: black;
+}
+
+.bombShow {
     background-color: red;
-    color:black;
-}   
+    color: black;
+}

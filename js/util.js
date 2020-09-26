@@ -5,14 +5,10 @@ function getRandNum() {
   return rand;
 }
 
-
-
 function getClassName(location) {
   var cellClass = 'cell-' + location.i + '-' + location.j;
   return cellClass;
 }
-
-
 
 function setTime() {
   var minutesLabel = document.getElementById('minutes');
@@ -31,11 +27,19 @@ function pad(val) {
   }
 }
 
+window.addEventListener(
+  'contextmenu',
+  function (e) {
+    e.preventDefault();
+  },
+  false
+);
 
-
-
-// function disableMenu() {
-//   document.addEventListener("contextmenu", function(a){
-//       a.preventDefault();
-//   })
-// }
+function renderCell(i, j, value) {
+  var elCell = document.querySelector('.cell-' + i + '-' + j);
+  if (value === 0) value = '';
+  elCell.innerText = `${value}`;
+  gBoard[i][j].isShown = true;
+  elCell.classList.add('show');
+  if (value === MINE) elCell.classList.add('bombShow');
+}

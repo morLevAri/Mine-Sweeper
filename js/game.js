@@ -175,16 +175,20 @@ function changeLevel(size, mines) {
 
 function GameLose() {
   //מורידה חיים בתצוגה
+  var elBtn = document.querySelector('.newGame');
+  elBtn.innerText = LOSS;
   gLife--;
   var elLives = document.querySelector('.lives');
   elLives.innerText = '';
   for (var i = 0; i < gLife; i++) {
     elLives.innerText += '💗 ';
   }
+ 
 
   var elTitle = document.querySelector('.liveMsg');
   elTitle.style.visibility = 'visible';
   gTitleInterval = setTimeout(function () {
+    elBtn.innerText = HAPPY;
     elTitle.style.visibility = 'hidden';
   }, 800);
 
@@ -192,10 +196,10 @@ function GameLose() {
     // שינוי הודעה
     elTitle.innerHTML = 'YOU LOST!';
     elTitle.style.visibility = 'visible';
-    clearInterval(titleInterval);
+    clearInterval(gTitleInterval);
 
     // חשיפת המוקשים
-    var elBtn = document.querySelector('.newGame');
+    
     elBtn.innerText = LOSS;
     for (var i = 0; i < gLevel.SIZE; i++) {
       for (var j = 0; j < gLevel.SIZE; j++) {

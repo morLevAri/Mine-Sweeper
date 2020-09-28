@@ -11,7 +11,6 @@ const LOSS = '😵';
 const WIN = '😎';
 
 var gLife = 3;
-var gFlagCounter = 0;
 var gTimeInterval;
 var gTitleInterval;
 var gHappyInterval;
@@ -25,7 +24,7 @@ var gLevel = {
 var gGame = {
   isOn: false,
   shownCount: 0,
-  markedCount: 0,
+  markedCount: gLevel.MINES,
   secsPassed: 0,
 };
 
@@ -34,6 +33,9 @@ function init() {
   document.getElementById('center').style.pointerEvents = 'all';
   var elBtn = document.querySelector('.newGame');
   elBtn.innerText = HAPPY;
+  gGame.markedCount = gLevel.MINES;
+  var elFlags = document.getElementById('flags');
+  elFlags.innerHTML = ' ' + gLevel.MINES;
   gBoard = buildBoard();
   gGame.isOn = false;
   gLife = 3;
@@ -50,8 +52,6 @@ function init() {
   var elLives = document.querySelector('.lives');
   elLives.innerText = '💗 💗 💗';
   elLives.style.visibility = 'visible';
-
-  gFlagCounter = 0;
 }
 
 function buildBoard() {
@@ -119,27 +119,27 @@ function setMinesNegsCount(cellI, cellJ, mat) {
 
 function cellClicked(i, j) {
   // מה קורה בכל לחיצה על תא
+  // האם המשחק עוד לא התחיל (לחיצה ראשונה במשחק)
   if (!gGame.isOn) {
     gTimeInterval = setInterval(setTime, 1000);
     createBombs(gBoard, gLevel.MINES, i, j);
     gGame.isOn = true;
   }
-
   var currCell = gBoard[i][j];
   var neighbors = setMinesNegsCount(i, j, gBoard);
-  // console.log(neighbors);
-
+  //האם לחצתי על פצצה:
   if (currCell.isMine) {
     renderCell(i, j, MINE);
     GameLose();
   } else {
-    if (neighbors === 0) expandShown(gBoard, i, j);
+    // האם לחצתי על תא ללא פצצה (מספר):
     renderCell(i, j, neighbors);
     var elBtn = document.querySelector('.newGame');
     elBtn.innerText = AFRAID;
     gHappyInterval = setTimeout(function () {
       elBtn.innerText = HAPPY;
     }, 150);
+    if (neighbors === 0) expandShown(gBoard, i, j); // האם לחצתי על מספר '0' (בלי שכנים)
   }
   checkVictory();
 }
@@ -176,30 +176,30 @@ function changeLevel(size, mines) {
 function GameLose() {
   //מורידה חיים בתצוגה
   var elBtn = document.querySelector('.newGame');
-  elBtn.innerText = LOSS;
-  gLife--;
   var elLives = document.querySelector('.lives');
+  elBtn.innerText = LOSS;
   elLives.innerText = '';
+  gLife--;
   for (var i = 0; i < gLife; i++) {
     elLives.innerText += '💗 ';
   }
- 
 
+  // הצגת הכותרת של ירידת חיים
   var elTitle = document.querySelector('.liveMsg');
   elTitle.style.visibility = 'visible';
   gTitleInterval = setTimeout(function () {
     elBtn.innerText = HAPPY;
     elTitle.style.visibility = 'hidden';
-  }, 800);
+  }, 1000);
 
   if (gLife === 0) {
+    // לחיצה על פצצה בלב האחרון
     // שינוי הודעה
     elTitle.innerHTML = 'YOU LOST!';
     elTitle.style.visibility = 'visible';
     clearInterval(gTitleInterval);
 
     // חשיפת המוקשים
-    
     elBtn.innerText = LOSS;
     for (var i = 0; i < gLevel.SIZE; i++) {
       for (var j = 0; j < gLevel.SIZE; j++) {
@@ -207,13 +207,13 @@ function GameLose() {
         renderBoard(gBoard);
       }
     }
-    // הסתרה של הלבבות אחרי הפסד סופי
+    // הסתרה של הלבבות
     var elLives = document.querySelector('.lives');
     elLives.innerText = '💗 💗 💗';
     elLives.style.visibility = 'hidden';
     clearInterval(gTimeInterval);
 
-    // מפסיק את האפשרות ללחוץ על הטבלה 
+    // מפסיק את האפשרות ללחוץ על הטבלה
     document.getElementById('center').style.pointerEvents = 'none';
   }
 }
@@ -222,52 +222,63 @@ function cellMarked(str, i, j) {
   // האם זה הקליק הראשון במשחק
   if (!gGame.isOn) {
     gTimeInterval = setInterval(setTime, 1000);
+    createBombs(gBoard, gLevel.MINES, i, j);
     gGame.isOn = true;
   }
 
-  // האם לחצתי על דגל קיים
+  //  האם לחצתי על דגל קיים (ביטול דגל קיים)
   if (gBoard[i][j].isMarked) {
     gBoard[i][j].isMarked = false;
-    gFlagCounter--;
+    if (gGame.markedCount < gLevel.MINES) {
+      gGame.markedCount++;
+    }
     gBoard[i][j].isShown = false;
     str.innerText = '';
     if (gBoard[i][j].isMine) {
       gBoard[i][j].isMarked = true;
-      gFlagCounter += 2;
       str.innerText = FLAG;
     }
   } else {
     // האם סימנתי דגל במקום בלי דגל
+
     if (!gBoard[i][j].isShown) {
-      // האם סימנתי דגל במקום שהוא לא מוצג (מספר קיים)
-      str.innerText = FLAG;
-      gBoard[i][j].isMarked = true;
-      gFlagCounter++;
+      // האם סימנתי דגל במקום שהוא לא לחוץ (רקע לבן)
+      if (gGame.markedCount > 0) {
+        //האם כמות הדגלים גדולה מ-0
+        str.innerText = FLAG;
+        gBoard[i][j].isMarked = true;
+        gGame.markedCount--;
+      }
     }
   }
   var elFlags = document.getElementById('flags');
-  elFlags.innerHTML = ' ' + gFlagCounter;
+  elFlags.innerHTML = ' ' + gGame.markedCount;
 
   checkVictory();
 }
 
 function checkVictory() {
-  // בודקת ניצחון
+  // תנאים לניצחון
   var shownCounter = 0;
-  var shownBombCounter = 0;
+  var bombMarkedCounter = 0;
   for (var i = 0; i < gLevel.SIZE; i++) {
     for (var j = 0; j < gLevel.SIZE; j++) {
+      var className = '.';
+      className += getClassName({ i: i, j: j });
+      var elCellFlag = document.querySelector(className);
+      console.log(bombMarkedCounter);
       if (gBoard[i][j].isShown) shownCounter++;
       if (gBoard[i][j].isMine) {
-        if (gBoard[i][j].isShown) {
-          shownBombCounter++;
+        if (elCellFlag.innerHTML === FLAG) {
+          bombMarkedCounter++;
         }
       }
     }
   }
   if (
-    shownCounter - shownBombCounter ===
-    gLevel.SIZE ** 2 - gLevel.MINES
+    // האם כמות התאים הפתוחים (פחות הפצצות החשופות) שווה לגודל הלוח(פחות כמות הפצצות)
+    shownCounter === gLevel.SIZE ** 2 - gLevel.MINES ||
+    bombMarkedCounter === gLevel.MINES
   ) {
     gameWin();
   }
@@ -284,7 +295,6 @@ function gameWin() {
   elTitle.innerHTML = 'YOU WON!';
   elTitle.style.visibility = 'visible';
   elBtn.innerText = WIN;
-  //  renderBoard(gBoard);
 }
 
 function expandShown(board, cellI, cellJ) {
@@ -296,10 +306,11 @@ function expandShown(board, cellI, cellJ) {
       if (j < 0 || j >= board[i].length) continue;
       if (i === cellI && j === cellJ) continue;
       if (board[i][j].isMarked) continue;
+      if (board[i][j].isShown) continue;
       board[i][j].isShown = true;
       neighbors = setMinesNegsCount(i, j, board);
+      if (neighbors === 0) expandShown(gBoard, i, j);
       renderCell(i, j, neighbors);
-      // if (neighbors === 0) cellClicked(i,j)
     }
   }
 }

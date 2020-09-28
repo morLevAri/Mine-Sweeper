@@ -39,7 +39,7 @@ function renderCell(i, j, value) {
   var elCell = document.querySelector('.cell-' + i + '-' + j);
   if (value === 0) value = '';
   elCell.innerText = `${value}`;
-  gBoard[i][j].isShown = true;
+  if (value !== MINE) gBoard[i][j].isShown = true;
   elCell.classList.add('show');
   if (value === MINE) elCell.classList.add('bombShow');
 }

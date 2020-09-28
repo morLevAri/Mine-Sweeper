@@ -1,3 +1,8 @@
+body {
+    /* background-color: rgb(238, 203, 229); */
+    background-image: linear-gradient(rgb(238, 203, 229), rgb(255, 255, 255));
+}
+
 .container {
     color: seashell;
     text-align: center;
@@ -15,7 +20,7 @@
 h1 {
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
-    color: rgb(221, 255, 187);
+    color: rgb(203, 240, 166);
 }
 
 .newGame {
@@ -53,7 +58,7 @@ h1 {
 }
 
 .liveMsg {
-    color: rgb(221, 255, 187);
+    color: rgb(203, 240, 166);
     margin: auto;
     left: 50%;
     text-align: center;
@@ -100,6 +105,7 @@ table {
 .show {
     background-color: rgb(112, 112, 112);
     color: black;
+    font-weight: bold;
 }
 
 .bombShow {
